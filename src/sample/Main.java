@@ -22,9 +22,10 @@ public class Main extends Application {
     private boolean isPathSet=false;
     private boolean isGenerationNumberSet=false;
     private Button startAnimationButton;
-    private final Board board=new Board();
-
-
+    private Board board;
+    private int width = 800;
+    private int height = 800;
+    private Pane root = new Pane();
 
     private Stage primaryStage;
     private Scene mainMenuScene;
@@ -32,9 +33,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        int width = 800;
-        int height = 800;
-        Pane root = new Pane();
         root.setStyle("-fx-background-color: #fbc531;");
         Data.window=primaryStage;
         //this.primaryStage=primaryStage;
@@ -140,13 +138,30 @@ public class Main extends Application {
     private void startAnimation(){
         isPathSet=false;
         isGenerationNumberSet=false;
-        try{
-            this.board.initialState=Utils.readBoard(70,70,this.pathToFile);
-            Utils.arrayCopy(this.board.previousState,this.board.initialState,70,70);
-            Utils.arrayCopy(this.board.actualState,this.board.initialState,70,70);
 
-            AnimationScene=new AnimationScene(new Pane(),this.primaryStage,this.mainMenuScene, this.board, generationsNumber);
-            startAnimationButton.setDisable(false);
+        try{
+            int arr[][] =Utils.readBoard(this.pathToFile);
+            Text failure = new Text("Podaj wielkość planszy lub powiększ ją(minimum 5x5)");
+            if(Utils.returnHeight()<=5 || Utils.returnWidth()<=5){
+                failure.setFont(Font.font("Arial", FontWeight.LIGHT, 20));
+                failure.setFill(Color.RED);
+                failure.applyCss();
+                final double widthCreditails = failure.getLayoutBounds().getWidth();
+                failure.setX(this.width/2 - widthCreditails/2);
+                failure.setY(this.height*0.7);
+                System.out.println("Podaj wielkość planszy lub powiększ ją(minimum 5x5)");
+                root.getChildren().add(failure);
+            }else{
+                failure.setText("");
+                this.board = new Board(Utils.returnHeight(),Utils.returnWidth());
+                this.board.initialState=arr;
+                Utils.arrayCopy(this.board.previousState,this.board.initialState);
+                Utils.arrayCopy(this.board.actualState,this.board.initialState);
+
+                AnimationScene=new AnimationScene(new Pane(),this.primaryStage,this.mainMenuScene, this.board, generationsNumber);
+                startAnimationButton.setDisable(false);
+            }
+
         }catch(IOException e){
             System.out.println(e);
         }

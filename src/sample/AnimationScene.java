@@ -13,6 +13,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
+import jdk.jshell.execution.Util;
 import org.w3c.dom.css.Rect;
 
 public class AnimationScene extends Scene {
@@ -27,7 +28,7 @@ public class AnimationScene extends Scene {
     private Color[] colors= {Color.BLACK,Color.BLUE,Color.RED,Color.YELLOW};
     private int seconds=0;
     private AnimationTimer at;
-    private Rectangle[][] rectangles=new Rectangle[70][70];
+    private Rectangle[][] rectangles=new Rectangle[76][76];
     private Board board;
     private boolean buttonState;
 
@@ -48,10 +49,10 @@ public class AnimationScene extends Scene {
             buttonState=true;
             stopButton.setText("Stop");
             nextStateButton.setDisable(true);
-            Utils.arrayCopy(this.board.actualState,this.board.initialState,70,70);
-            Utils.arrayCopy(this.board.actualState,this.board.initialState,70,70);
-            for(int i=0;i<70;i++){
-                for(int j=0;j<70;j++){
+            Utils.arrayCopy(this.board.actualState,this.board.initialState);
+            Utils.arrayCopy(this.board.actualState,this.board.initialState);
+            for(int i=0;i<Utils.returnHeight();i++){
+                for(int j=0;j<Utils.returnWidth();j++){
                     rectangles[i][j].setFill(Color.WHITE);
                 }
             }
@@ -86,10 +87,10 @@ public class AnimationScene extends Scene {
 
         this.nextStateButton=new Button("Next Generation");
         this.nextStateButton.setOnAction(e->{
-            Utils.arrayCopy(board.previousState,board.actualState,70,70);
-            board.calcNextGeneration(board.previousState,board.actualState,70,70);
-            for(int i=0;i<70;i++){
-                for(int j=0;j<70;j++){
+            Utils.arrayCopy(board.previousState,board.actualState);
+            board.calcNextGeneration(board.previousState,board.actualState, Utils.returnWidth(),Utils.returnHeight());
+            for(int i=0;i<Utils.returnHeight();i++){
+                for(int j=0;j<Utils.returnWidth();j++){
                     rectangles[i][j].setFill(colors[board.actualState[i][j]]);
                 }
             }
@@ -107,9 +108,9 @@ public class AnimationScene extends Scene {
         this.nextStateButton.setDisable(true);
         ((Pane)getRoot()).getChildren().add(nextStateButton);
 
-        for(int i=0;i<70;i++){
-            for(int j=0;j<70;j++){
-                rectangles[i][j]=new Rectangle(50+10*i,50+10*j,10,10);
+        for(int i=0;i<Utils.returnHeight();i++){
+            for(int j=0;j<Utils.returnWidth();j++){
+                rectangles[i][j]=new Rectangle(50+10*i,50+10*j, 10,10);
                 rectangles[i][j].setFill(Color.WHITE);
                 ((Pane)getRoot()).getChildren().add(rectangles[i][j]);
             }
@@ -129,18 +130,18 @@ public class AnimationScene extends Scene {
                     System.out.println(seconds);
                     i=0;
                     seconds++;
-                    Utils.arrayCopy(board.previousState,board.actualState,70,70);
-                    board.calcNextGeneration(board.previousState,board.actualState,70,70);
+                    Utils.arrayCopy(board.previousState,board.actualState);
+                    board.calcNextGeneration(board.previousState,board.actualState, Utils.returnWidth(),Utils.returnHeight());
 
-                    for(int i=0;i<70;i++){
-                        for(int j=0;j<70;j++){
+                    for(int i=0;i<Utils.returnHeight();i++){
+                        for(int j=0;j<Utils.returnWidth();j++){
                             rectangles[i][j].setFill(colors[board.actualState[i][j]]);
                         }
                     }
                     numberOfGenerationsLeft--;
                     if(numberOfGenerationsLeft==0){
                         at.stop();
-                        Utils.writeToFile(70,70,"out.txt",board.actualState);
+                        Utils.writeToFile("out-new.txt",board.actualState);
                         backButton.setDisable(false);
                         stopButton.setDisable(true);
                         nextStateButton.setDisable(true);
