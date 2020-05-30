@@ -28,7 +28,7 @@ public class AnimationScene extends Scene {
     private Color[] colors= {Color.BLACK,Color.BLUE,Color.RED,Color.YELLOW};
     private int seconds=0;
     private AnimationTimer at;
-    private Rectangle[][] rectangles=new Rectangle[76][76];
+    private Rectangle[][] rectangles=new Rectangle[70][70];
     private Board board;
     private boolean buttonState;
 
@@ -43,7 +43,11 @@ public class AnimationScene extends Scene {
     }
 
     public void setLayout(){
+        int width = 800;
+        int height = 800;
         this.backButton=new Button("Go back");
+        this.backButton.setPrefWidth(80);
+        this.backButton.setPrefHeight(30);
         this.backButton.setOnAction(e->{
             at.stop();
             buttonState=true;
@@ -60,13 +64,15 @@ public class AnimationScene extends Scene {
             this.nextStateButton.setDisable(true);
             Data.window.setScene(sc);
         });
-        this.backButton.setLayoutY(750);
-        this.backButton.setLayoutX(380);
+        this.backButton.setLayoutY(752);
+        this.backButton.setLayoutX(50);
         this.backButton.setDisable(true);
 
         ((Pane)getRoot()).getChildren().add(backButton);
 
         this.stopButton=new Button("Stop");
+        this.stopButton.setPrefWidth(150);
+        this.stopButton.setPrefHeight(30);
         this.stopButton.setOnAction(e->{
             if(buttonState) {
                 at.stop();
@@ -80,12 +86,14 @@ public class AnimationScene extends Scene {
                 nextStateButton.setDisable(true);
             }
         });
-        this.stopButton.setLayoutY(750);
-        this.stopButton.setLayoutX(450);
+        this.stopButton.setLayoutY(752);
+        this.stopButton.setLayoutX(235);
 
         ((Pane)getRoot()).getChildren().add(stopButton);
 
         this.nextStateButton=new Button("Next Generation");
+        this.nextStateButton.setPrefWidth(150);
+        this.nextStateButton.setPrefHeight(30);
         this.nextStateButton.setOnAction(e->{
             Utils.arrayCopy(board.previousState,board.actualState);
             board.calcNextGeneration(board.previousState,board.actualState, Utils.returnWidth(),Utils.returnHeight());
@@ -103,14 +111,14 @@ public class AnimationScene extends Scene {
                 //Data.window.setScene(sc);
             }
         });
-        this.nextStateButton.setLayoutY(750);
-        this.nextStateButton.setLayoutX(550);
+        this.nextStateButton.setLayoutY(752);
+        this.nextStateButton.setLayoutX(415);
         this.nextStateButton.setDisable(true);
         ((Pane)getRoot()).getChildren().add(nextStateButton);
 
         for(int i=0;i<Utils.returnHeight();i++){
             for(int j=0;j<Utils.returnWidth();j++){
-                rectangles[i][j]=new Rectangle(50+10*i,50+10*j, 10,10);
+                rectangles[i][j]=new Rectangle((width-Utils.returnWidth()*10)/2+10*i,(height-Utils.returnHeight()*10)/2+10*j, 10,10);
                 rectangles[i][j].setFill(Color.WHITE);
                 ((Pane)getRoot()).getChildren().add(rectangles[i][j]);
             }

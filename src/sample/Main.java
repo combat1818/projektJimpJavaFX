@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class Main extends Application {
 
@@ -26,7 +27,7 @@ public class Main extends Application {
     private int width = 800;
     private int height = 800;
     private Pane root = new Pane();
-
+    private Text failure = new Text();
     private Stage primaryStage;
     private Scene mainMenuScene;
     private AnimationScene AnimationScene;
@@ -135,24 +136,36 @@ public class Main extends Application {
         }
     }
 
+    private Text returnFailure(String text){
+        root.getChildren().remove(failure);
+        Text failure = new Text(text);
+        failure.setFont(Font.font("Arial", FontWeight.LIGHT, 20));
+        failure.setFill(Color.RED);
+        failure.applyCss();
+        final double widthCreditails = failure.getLayoutBounds().getWidth();
+        failure.setX(this.width/2 - widthCreditails/2);
+        failure.setY(this.height*0.7);
+        root.getChildren().add(failure);
+        return failure;
+    }
+
     private void startAnimation(){
         isPathSet=false;
         isGenerationNumberSet=false;
 
         try{
             int arr[][] =Utils.readBoard(this.pathToFile);
-            Text failure = new Text("Podaj wielkość planszy lub powiększ ją(minimum 5x5)");
-            if(Utils.returnHeight()<=5 || Utils.returnWidth()<=5){
-                failure.setFont(Font.font("Arial", FontWeight.LIGHT, 20));
-                failure.setFill(Color.RED);
-                failure.applyCss();
-                final double widthCreditails = failure.getLayoutBounds().getWidth();
-                failure.setX(this.width/2 - widthCreditails/2);
-                failure.setY(this.height*0.7);
-                System.out.println("Podaj wielkość planszy lub powiększ ją(minimum 5x5)");
-                root.getChildren().add(failure);
+            System.out.println(arr);
+            if(arr == null){
+                failure = returnFailure("Niewłaściwy wymiar tablicy.");
+            }
+            else if(Utils.returnHeight()<5 || Utils.returnWidth()<5){
+                failure = returnFailure("Podaj wielkość planszy bądź zwiększ ją(min. 5x5)");
+            }else if( Utils.returnHeight() >70 || Utils.returnWidth() >70){
+                failure = returnFailure("Podaj mniejszą wielkość planszy(maximum 70x70)");
             }else{
-                failure.setText("");
+                failure = returnFailure("");
+
                 this.board = new Board(Utils.returnHeight(),Utils.returnWidth());
                 this.board.initialState=arr;
                 Utils.arrayCopy(this.board.previousState,this.board.initialState);

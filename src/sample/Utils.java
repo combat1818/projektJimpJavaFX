@@ -25,12 +25,16 @@ public class Utils {
 
         int [][]tab=new int [height][width];
 
-
-        for(int i=0;i<width;i++) {
-            for(int j=0;j<height;j++) {
-                tab[i][j]=Integer.parseInt(s.next());
+        try{
+            for(int i=0;i<width;i++) {
+                for(int j=0;j<height;j++) {
+                    tab[i][j]=Integer.parseInt(s.next());
+                }
             }
+        }catch(Exception e){
+            return null;
         }
+
         s.close();
 
         return tab;
