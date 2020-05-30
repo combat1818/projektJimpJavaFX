@@ -41,7 +41,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
         /* title */
-        Text title = new Text("WireWorld");
+        Text title = new Text("Wireworld");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 80));
         title.setFill(Color.BLUE);
         title.applyCss();
