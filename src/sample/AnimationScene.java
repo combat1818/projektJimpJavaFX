@@ -118,7 +118,7 @@ public class AnimationScene extends Scene {
 
         for(int i=0;i<Utils.returnHeight();i++){
             for(int j=0;j<Utils.returnWidth();j++){
-                rectangles[i][j]=new Rectangle((width-Utils.returnWidth()*10)/2+10*i,(height-Utils.returnHeight()*10)/2+10*j, 10,10);
+                rectangles[i][j]=new Rectangle((width-Utils.returnWidth()*10)/2+10*j,(height-Utils.returnHeight()*10)/2+10*i, 10,10);
                 rectangles[i][j].setFill(Color.WHITE);
                 ((Pane)getRoot()).getChildren().add(rectangles[i][j]);
             }
@@ -134,7 +134,7 @@ public class AnimationScene extends Scene {
         at= new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(i==30) {
+                if(i==15) {
                     System.out.println(seconds);
                     i=0;
                     seconds++;
