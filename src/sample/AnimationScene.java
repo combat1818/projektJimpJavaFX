@@ -127,7 +127,6 @@ public class AnimationScene extends Scene {
     }
 
     public void startAnimation(){
-        System.out.println("HALO KARTHUIS");
         stopButton.setDisable(false);
         nextStateButton.setDisable(false);
         numberOfGenerationsLeft=initialNumberOfGenerations;
@@ -135,7 +134,6 @@ public class AnimationScene extends Scene {
             @Override
             public void handle(long l) {
                 if(i==15) {
-                    System.out.println(seconds);
                     i=0;
                     seconds++;
                     Utils.arrayCopy(board.previousState,board.actualState);

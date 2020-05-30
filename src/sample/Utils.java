@@ -19,10 +19,6 @@ public class Utils {
         width = Integer.parseInt(s.next());
         height = Integer.parseInt(s.next());
 
-
-
-        System.out.println(height + " " + width);
-
         int [][]tab=new int [height][width];
 
         try{

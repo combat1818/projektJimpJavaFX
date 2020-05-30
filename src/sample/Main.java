@@ -155,7 +155,6 @@ public class Main extends Application {
 
         try{
             int arr[][] =Utils.readBoard(this.pathToFile);
-            System.out.println(arr);
             if(arr == null){
                 failure = returnFailure("Niewłaściwy wymiar tablicy.");
             }
