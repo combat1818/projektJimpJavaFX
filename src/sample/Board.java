@@ -5,17 +5,17 @@ public class Board {
     public int [][] previousState;
     public int [][] actualState;
 
-    public Board(){
-        this.initialState=new int [70][70];
-        this.previousState=new int [70][70];
-        this.actualState=new int [70][70];
+    public Board(int height,int width){
+        this.initialState=new int [height][width];
+        this.previousState=new int [height][width];
+        this.actualState=new int [height][width];
     }
 
     public void calcNextGeneration(int[][] previousState, int[][] actualState, int width, int height) {
 
         int count;
-        for(int i=0;i<70;i++) {
-            for(int j=0;j<70;j++) {
+        for(int i=0;i<height;i++) {
+            for(int j=0;j<width;j++) {
                 count=0;
 
                 if(i==0 && j==0) {
@@ -23,19 +23,19 @@ public class Board {
                     if(previousState[i][j+1]==1) count++;
                     if(previousState[i+1][j]==1) count++;
                     if(previousState[i+1][j+1]==1) count++;
-                }else if(i==69 && j==69) {
+                }else if(i==height-1 && j==width-1) {
                     if(previousState[i-1][j-1]==1) count++;
                     if(previousState[i-1][j]==1) count++;
                     if(previousState[i][j-1]==1) count++;
-                }else if(i==0 && j==69) {
+                }else if(i==0 && j==width-1) {
                     if(previousState[i][j-1]==1) count++;
                     if(previousState[i+1][j-1]==1) count++;
                     if(previousState[i+1][j]==1) count++;
-                }else if(i==69 && j==0) {
+                }else if(i==height-1 && j==0) {
                     if(previousState[i][j+1]==1) count++;
                     if(previousState[i-1][j]==1) count++;
                     if(previousState[i][j+1]==1) count++;
-                }else if(i>0 && j>0 && i<69 && j<69) {
+                }else if(i>0 && j>0 && i<height-1 && j<width-1) {
 
                     if(previousState[i-1][j-1]==1) count++;
                     if(previousState[i-1][j]==1) count++;
@@ -56,7 +56,7 @@ public class Board {
                     if(previousState[i+1][j-1]==1) count++;
                     if(previousState[i+1][j]==1) count++;
                     if(previousState[i+1][j+1]==1) count++;
-                }else if(i==69 && j>0) {
+                }else if(i==height-1 && j>0) {
 
                     if(previousState[i-1][j-1]==1) count++;
                     if(previousState[i-1][j]==1) count++;
@@ -71,7 +71,7 @@ public class Board {
 
                     if(previousState[i-1][j]==1) count++;
                     if(previousState[i+1][j]==1) count++;
-                }else if(i>0 && j==69) {
+                }else if(i>0 && j==width-1) {
                     if(previousState[i-1][j-1]==1) count++;
                     if(previousState[i][j-1]==1) count++;
                     if(previousState[i+1][j-1]==1) count++;
